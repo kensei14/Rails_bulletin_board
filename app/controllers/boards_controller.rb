@@ -1,4 +1,5 @@
 class BoardsController < ApplicationController
+  layout 'my_original', :only => [:new, :create]
   # GET /boards
   # GET /boards.json
   def index
@@ -40,12 +41,17 @@ class BoardsController < ApplicationController
   # POST /boards
   # POST /boards.json
   def create
+
     @board = Board.new(params[:board])
     @board.title = params[:contribute][:title]
     @board.comment = params[:contribute][:comment]
     p "testinggggggggggg"
     p params[:contribute]
 
+    redirect_to :action => "index"
+    #render :action => "index"
+
+=begin
     respond_to do |format|
       if @board.save
         #format.html { redirect_to :back, notice: 'Board was successfully created.' }
@@ -56,6 +62,7 @@ class BoardsController < ApplicationController
         format.json { render json: @board.errors, status: :unprocessable_entity }
       end
     end
+=end
   end
 
   # PUT /boards/1
