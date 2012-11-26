@@ -43,6 +43,7 @@ class BoardsController < ApplicationController
   def create
 
     @board = Board.new(params[:board])
+    @board.user_id = params[:contribute][:user_id]
     @board.title = params[:contribute][:title]
     @board.comment = params[:contribute][:comment]
     p "testinggggggggggg"

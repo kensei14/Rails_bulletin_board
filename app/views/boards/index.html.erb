@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <th>Id</th>
+    <th>User_Id</th>
     <th>Title</th>
     <th>Comment</th>
     <th>D date</th>
@@ -14,7 +14,8 @@
 
 <% @boards.each do |board| %>
   <tr>
-    <td><%= board.id %></td>
+    <td><%# board.id %></td>
+    <td><%= board.user_id %></td>
     <td><%= board.title %></td>
     <td><%= board.comment %></td>
     <td><%= board.d_date %></td>
@@ -30,8 +31,12 @@
 
 <%= form_tag(:controller=>"boards", :action=>"create") do -%>
   <div class="user_wrapper">
+    <h2>ユーザーID</h2>
+    <%= text_field(:contribute, :user_id, :class=>"user_text", :size=>"60") %>
+    <h2>投稿タイトル</h2>
     <%= text_field(:contribute, :title, :class=>"user_text", :size=>"60") %>
     <br/>
+    <h2>投稿内容</h2>
     <%= text_area(:contribute, :comment, :class=>"user_area", :size=>"60x20") %>
     <br/>
     <%= submit_tag("送信", :confirm=>"Are you sure?", :size=>"50") %>
