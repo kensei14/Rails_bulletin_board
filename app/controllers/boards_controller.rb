@@ -48,6 +48,7 @@ class BoardsController < ApplicationController
     p "testinggggggggggg"
     p params[:contribute]
 
+    @board.save
     redirect_to :action => "index"
     #render :action => "index"
 
