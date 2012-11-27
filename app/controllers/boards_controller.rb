@@ -4,6 +4,8 @@ class BoardsController < ApplicationController
   # GET /boards.json
   def index
     @boards = Board.all
+    @users = User.all
+    p @users
 
     respond_to do |format|
       format.html # index.html.erb
@@ -43,6 +45,10 @@ class BoardsController < ApplicationController
   def create
 
     @board = Board.new(params[:board])
+    #@user = User.new(params[:contribute][:user_id])
+    @user = User.new(params[:board])
+
+    @user.user_id = params[:contribute][:user_id]
     @board.user_id = params[:contribute][:user_id]
     @board.title = params[:contribute][:title]
     @board.comment = params[:contribute][:comment]
@@ -50,6 +56,7 @@ class BoardsController < ApplicationController
     p params[:contribute]
 
     @board.save
+    @user.save
     redirect_to :action => "index"
     #render :action => "index"
 

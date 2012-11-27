@@ -1,4 +1,6 @@
 BullationBoard::Application.routes.draw do
+  resources :users
+
   resources :boards
 
   # The priority is based upon order of creation:
