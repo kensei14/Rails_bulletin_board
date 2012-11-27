@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BullationBoard</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="show_wrapper">
+  <h2>calling original template おれが作ったテンプレート</h2>
+<%= yield %>
+  </div>
+</body>
+</html>

@@ -43,35 +43,27 @@ class BoardsController < ApplicationController
   # POST /boards
   # POST /boards.json
   def create
-
     @board = Board.new(params[:board])
-    #@user = User.new(params[:contribute][:user_id])
-    @user = User.new(params[:board])
 
-    @user.user_id = params[:contribute][:user_id]
-    @board.user_id = params[:contribute][:user_id]
+    @user = User.new
+    #@user = User.new(params[:contribute][:user_id])
+    #@user.user_id = params[:contribute][:user_id]
+    @user.name = params[:contribute][:user]
+    @user.save
+    
+    @board.user_id = @user.id
+    #@board.user_id = params[:contribute][:user_id]
     @board.title = params[:contribute][:title]
     @board.comment = params[:contribute][:comment]
-    p "testinggggggggggg"
-    p params[:contribute]
-
+    @board.d_time = Time.now
     @board.save
-    @user.save
+
+    p params[:contribute]
+    p "tesssssssssssssssssssssssssssssssssssssssssssssssssssssst"
+    p @d = @user.id
+
     redirect_to :action => "index"
     #render :action => "index"
-
-=begin
-    respond_to do |format|
-      if @board.save
-        #format.html { redirect_to :back, notice: 'Board was successfully created.' }
-        format.html { redirect_to @board, notice: 'Board was successfully created.' }
-        format.json { render json: @board, status: :created, location: @board }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @board.errors, status: :unprocessable_entity }
-      end
-    end
-=end
   end
 
   # PUT /boards/1
