@@ -5,7 +5,9 @@ class BoardsController < ApplicationController
   def index
     @boards = Board.all
     @users = User.all
+
     p @users
+    #@c = @users.select {|user| user.id == board.user_id }
 
     respond_to do |format|
       format.html # index.html.erb
@@ -44,46 +46,40 @@ class BoardsController < ApplicationController
   # POST /boards.json
   def create
     @board = Board.new
-
     @user = User.new
-    #@user = User.new(params[:contribute][:user_id])
-    #@user.user_id = params[:contribute][:user_id]
     @user.name = params[:contribute][:user]
 
     @search = User.where(:name => @user.name)
+
     p @search.class.name
+    p @search
     p "tessssssssssssssssssssssssssssssssssssssst"
 
-    if @search.empty? && @user.save then
-      p "okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
+    #if !@search.empty? && @board.save then
+    if !@search.empty? then
+      @board.user_id = @search[0].id
+      @board.title = params[:contribute][:title]
+      @board.comment = params[:contribute][:comment]
+      @board.d_time = Time.now
+
+      if @board.save then
+        p "okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
+        redirect_to :action => "index" and return true
+      else
+        p "board input errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
+      end
     else
-      p "not okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
+      p "user name errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
       #render :text => "invalid username" and return false
-      render :text => "invalid username" and return false
+      render :text => "unknown username" and return false
     end
-    p @search
 
 =begin
-    if @user.save
+    if @board.save
     else
-      render :text => "invalid username"
-      return
+      render :text => "invalid title or comment" and return false
     end
 =end
-
-    @board.user_id = @user.id
-    #@board.user_id = params[:contribute][:user_id]
-    @board.title = params[:contribute][:title]
-    @board.comment = params[:contribute][:comment]
-    @board.d_time = Time.now
-
-    if @board.save
-      redirect_to :action => "index"
-      #render :action => "index"
-    else
-      render :text => "invalid title or comment"
-    end
-    #@board.save
     
     p params[:contribute]
   end

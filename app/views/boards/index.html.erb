@@ -16,9 +16,12 @@
   <div class="clearfix">
     <div class="line_title">ユーザー名</div>
     <div class="line_contents">
-      <!-- 本当はコントローラで書く -->
+            <!-- 本当はコントローラで書く -->
+            <%# @c = User.find(board.user_id) %>
       <% @c = @users.select {|user| user.id == board.user_id } %>
-      <%= link_to @c[0].name, {:controller => "users", :action => "show", :id => board.user_id } %>
+      <% if !@c.empty? then %>
+        <%= link_to @c[0].name, {:controller => "users", :action => "show", :id => @c[0].id } %>
+      <% end %>
     </div>
   </div>
 
