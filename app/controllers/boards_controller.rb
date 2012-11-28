@@ -43,27 +43,49 @@ class BoardsController < ApplicationController
   # POST /boards
   # POST /boards.json
   def create
-    @board = Board.new(params[:board])
+    @board = Board.new
 
     @user = User.new
     #@user = User.new(params[:contribute][:user_id])
     #@user.user_id = params[:contribute][:user_id]
     @user.name = params[:contribute][:user]
-    @user.save
-    
+
+    @search = User.where(:name => @user.name)
+    p @search.class.name
+    p "tessssssssssssssssssssssssssssssssssssssst"
+
+    if @search.empty? && @user.save then
+      p "okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
+    else
+      p "not okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
+      #render :text => "invalid username" and return false
+      render :text => "invalid username" and return false
+    end
+    p @search
+
+=begin
+    if @user.save
+    else
+      render :text => "invalid username"
+      return
+    end
+=end
+
     @board.user_id = @user.id
     #@board.user_id = params[:contribute][:user_id]
     @board.title = params[:contribute][:title]
     @board.comment = params[:contribute][:comment]
     @board.d_time = Time.now
-    @board.save
 
+    if @board.save
+      redirect_to :action => "index"
+      #render :action => "index"
+    else
+      render :text => "invalid title or comment"
+    end
+    #@board.save
+    
     p params[:contribute]
-    p "tesssssssssssssssssssssssssssssssssssssssssssssssssssssst"
-    p @d = @user.id
-
-    redirect_to :action => "index"
-    #render :action => "index"
   end
 
   # PUT /boards/1

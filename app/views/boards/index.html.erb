@@ -1,5 +1,10 @@
 <h1>簡易掲示板システム</h1>
 
+
+<%= link_to "ユーザー一覧", :controller => "users", :action => "index" %>
+<%= link_to "ユーザー登録", :controller => "users", :action => "new" %>
+<hr>
+
 <% @boards.each do |board| %>
   <div class="clearfix">
     <div class="line_title">投稿タイトル</div>
@@ -11,15 +16,9 @@
   <div class="clearfix">
     <div class="line_title">ユーザー名</div>
     <div class="line_contents">
-            <%#= @a = @users.first %>
-            <% @c = @users.select {|user| user.id == board.user_id } %>
-            <%= link_to @c[0].name, {:controller => "users", :action => "show", :id => board.user_id } %>
-            <%#= @users.class.name %>
-            <%#= @b = User.find(2) %>
-            <%#= @b.name %>
-            <br>
-            <%#= @a = @users.assoc(board.user_id) %>
-            <%#= link_to @users.select {}find( {:controller => "users", :action => "show", :id => board.id, :name => "test"} %>
+      <!-- 本当はコントローラで書く -->
+      <% @c = @users.select {|user| user.id == board.user_id } %>
+      <%= link_to @c[0].name, {:controller => "users", :action => "show", :id => board.user_id } %>
     </div>
   </div>
 
@@ -64,7 +63,7 @@
 
 <%= form_tag(:controller=>"boards", :action=>"create") do -%>
   <div class="user_wrapper">
-    <h3>ユーザー</h3>
+    <h3>ユーザー名</h3>
     <%= text_field(:contribute, :user, :class=>"user_text", :size=>"60") %>
     <h3>投稿タイトル</h3>
     <%= text_field(:contribute, :title, :class=>"user_text", :size=>"60") %>
@@ -77,25 +76,3 @@
   </div>
 <% end -%>
 
-<br>
-<br>
-
-<table>
-  <tr>
-    <th>User_Id</th>
-    <th>Name</th>
-    <th>Description</th>
-  </tr>
-<% @users.each do |user| %>
-  <tr>
-    <td><%= user.user_id %></td>
-    <td><%= user.name %></td>
-    <td><%= user.description %></td>
-    <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_board_path(user) %></td>
-    <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
-
-<%= link_to 'New Board', new_board_path %>
