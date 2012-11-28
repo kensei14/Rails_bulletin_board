@@ -16,8 +16,6 @@
   <div class="clearfix">
     <div class="line_title">ユーザー名</div>
     <div class="line_contents">
-            <!-- 本当はコントローラで書く -->
-            <%# @c = User.find(board.user_id) %>
       <% @c = @users.select {|user| user.id == board.user_id } %>
       <% if !@c.empty? then %>
         <%= link_to @c[0].name, {:controller => "users", :action => "show", :id => @c[0].id } %>
@@ -41,24 +39,6 @@
   <%= link_to 'Destroy', board, method: :delete, data: { confirm: 'Are you sure?' } %>
 
   <div style="margin-bottom: 20px"></div>
-
-    <!--
-    <td><%= link_to board.id, {:controller => "users", :action => "show", :id => board.id, :name => "test"} %></td>
-    <td><a href=<%= url_for :controller => "users", :action => "show", :id => board.id %>>aaaa</a>
-    <td><%= board.title %></td>
-    <td><%= board.comment %></td>
-    <td><%= board.d_date %></td>
-    <td><%= board.d_time %></td>
-    <td><%= link_to 'Show', board %></td>
-    <td><%= link_to 'Edit', edit_board_path(board) %></td>
-    <td><%= link_to 'Destroy', board, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    -->
-    <!--
-    <td><%# board.id %></td>
-    <td><%# board.user_id %></td>
-    <td><%# url_for :controller => "users", :action => "show", :id => board.id %></td>
-    <td><%# link_to @user.id.to_s(), {:controller => "users", :action => "show", :id => board.id, :name => "test"} %></td>
-    -->
 <% end %>
 
 <hr>
@@ -78,4 +58,3 @@
     <br/>
   </div>
 <% end -%>
-

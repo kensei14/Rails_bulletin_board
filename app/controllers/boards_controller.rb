@@ -6,9 +6,6 @@ class BoardsController < ApplicationController
     @boards = Board.all
     @users = User.all
 
-    p @users
-    #@c = @users.select {|user| user.id == board.user_id }
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @boards }
@@ -46,16 +43,8 @@ class BoardsController < ApplicationController
   # POST /boards.json
   def create
     @board = Board.new
-    @user = User.new
-    @user.name = params[:contribute][:user]
+    @search = User.where(:name => params[:contribute][:user])
 
-    @search = User.where(:name => @user.name)
-
-    p @search.class.name
-    p @search
-    p "tessssssssssssssssssssssssssssssssssssssst"
-
-    #if !@search.empty? && @board.save then
     if !@search.empty? then
       @board.user_id = @search[0].id
       @board.title = params[:contribute][:title]
@@ -63,25 +52,13 @@ class BoardsController < ApplicationController
       @board.d_time = Time.now
 
       if @board.save then
-        p "okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
         redirect_to :action => "index" and return true
       else
-        p "board input errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
+        render :text => "invalid contribution" and return false
       end
     else
-      p "user name errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
-      #render :text => "invalid username" and return false
-      render :text => "unknown username" and return false
+      render :text => "unknown user name" and return false
     end
-
-=begin
-    if @board.save
-    else
-      render :text => "invalid title or comment" and return false
-    end
-=end
-    
-    p params[:contribute]
   end
 
   # PUT /boards/1
